@@ -1,0 +1,40 @@
+
+syntax = "proto3";
+option go_package = "todo/protos";
+
+service TodoList {
+    rpc GetTodos (Empty) returns (stream Todo);
+    rpc AddTodo (AddTodoRequest) returns (AddTodoResponse);
+    rpc DeleteTodo (DeleteTodoRequest) returns (DeleteTodoResponse); 
+    rpc UpdateTodo (Todo) returns (UpdateTodoResponse);
+}
+
+message Empty {
+
+}
+
+message Todo {
+    string content = 1;
+    bool done = 2;
+    int64 todo_id = 3;
+}
+
+message AddTodoRequest {
+    string content = 1;
+}
+
+message AddTodoResponse {
+    int64 todo_id = 1;
+}
+
+message DeleteTodoRequest {
+    int64 todo_id = 1;
+}
+
+message DeleteTodoResponse {
+    int64 todo_id = 1;
+}
+
+message UpdateTodoResponse {
+    int64 todo_id = 1;
+}

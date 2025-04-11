@@ -1,0 +1,3 @@
+module todo/protos
+
+go 1.24.2
