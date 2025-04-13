@@ -6,7 +6,7 @@ service TodoList {
     rpc GetTodos (Empty) returns (stream Todo);
     rpc AddTodo (AddTodoRequest) returns (AddTodoResponse);
     rpc DeleteTodo (DeleteTodoRequest) returns (DeleteTodoResponse); 
-    rpc UpdateTodo (Todo) returns (UpdateTodoResponse);
+    rpc UpdateTodo (UpdateTodoRequest) returns (UpdateTodoResponse);
 }
 
 message Empty {
@@ -32,6 +32,11 @@ message DeleteTodoRequest {
 }
 
 message DeleteTodoResponse {
+    int64 todo_id = 1;
+}
+
+
+message UpdateTodoRequest {
     int64 todo_id = 1;
 }
 

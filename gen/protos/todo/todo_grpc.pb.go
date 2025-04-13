@@ -32,7 +32,7 @@ type TodoListClient interface {
 	GetTodos(ctx context.Context, in *Empty, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Todo], error)
 	AddTodo(ctx context.Context, in *AddTodoRequest, opts ...grpc.CallOption) (*AddTodoResponse, error)
 	DeleteTodo(ctx context.Context, in *DeleteTodoRequest, opts ...grpc.CallOption) (*DeleteTodoResponse, error)
-	UpdateTodo(ctx context.Context, in *Todo, opts ...grpc.CallOption) (*UpdateTodoResponse, error)
+	UpdateTodo(ctx context.Context, in *UpdateTodoRequest, opts ...grpc.CallOption) (*UpdateTodoResponse, error)
 }
 
 type todoListClient struct {
@@ -82,7 +82,7 @@ func (c *todoListClient) DeleteTodo(ctx context.Context, in *DeleteTodoRequest, 
 	return out, nil
 }
 
-func (c *todoListClient) UpdateTodo(ctx context.Context, in *Todo, opts ...grpc.CallOption) (*UpdateTodoResponse, error) {
+func (c *todoListClient) UpdateTodo(ctx context.Context, in *UpdateTodoRequest, opts ...grpc.CallOption) (*UpdateTodoResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateTodoResponse)
 	err := c.cc.Invoke(ctx, TodoList_UpdateTodo_FullMethodName, in, out, cOpts...)
@@ -99,7 +99,7 @@ type TodoListServer interface {
 	GetTodos(*Empty, grpc.ServerStreamingServer[Todo]) error
 	AddTodo(context.Context, *AddTodoRequest) (*AddTodoResponse, error)
 	DeleteTodo(context.Context, *DeleteTodoRequest) (*DeleteTodoResponse, error)
-	UpdateTodo(context.Context, *Todo) (*UpdateTodoResponse, error)
+	UpdateTodo(context.Context, *UpdateTodoRequest) (*UpdateTodoResponse, error)
 	mustEmbedUnimplementedTodoListServer()
 }
 
@@ -119,7 +119,7 @@ func (UnimplementedTodoListServer) AddTodo(context.Context, *AddTodoRequest) (*A
 func (UnimplementedTodoListServer) DeleteTodo(context.Context, *DeleteTodoRequest) (*DeleteTodoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTodo not implemented")
 }
-func (UnimplementedTodoListServer) UpdateTodo(context.Context, *Todo) (*UpdateTodoResponse, error) {
+func (UnimplementedTodoListServer) UpdateTodo(context.Context, *UpdateTodoRequest) (*UpdateTodoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTodo not implemented")
 }
 func (UnimplementedTodoListServer) mustEmbedUnimplementedTodoListServer() {}
@@ -191,7 +191,7 @@ func _TodoList_DeleteTodo_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _TodoList_UpdateTodo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Todo)
+	in := new(UpdateTodoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -203,7 +203,7 @@ func _TodoList_UpdateTodo_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: TodoList_UpdateTodo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TodoListServer).UpdateTodo(ctx, req.(*Todo))
+		return srv.(TodoListServer).UpdateTodo(ctx, req.(*UpdateTodoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
